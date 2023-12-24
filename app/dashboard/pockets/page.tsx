@@ -151,8 +151,8 @@ const PocketPage: FC = () => {
                       }}
                       control={control}
                       renderValue={(items) => {
-                        return items.map((i) => (
-                          <div className="flex gap-2 items-center">
+                        return items.map((i, idx) => (
+                          <div key={idx} className="flex gap-2 items-center">
                             <FontAwesomeIcon
                               icon={i.data?.element ?? faCircle}
                               size="2x"
