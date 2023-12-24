@@ -11,7 +11,7 @@ export const defaultPocket: Pocket = {
   isActive: true,
 };
 
-export const usePocket = () => {
+export const usePocketConnection = () => {
   // dexie hook to get live data
   const pocketList =
     useLiveQuery(() => db.pockets.toArray())?.sort((i, j) => {

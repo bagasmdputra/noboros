@@ -1,6 +1,6 @@
 "use client";
 import { Transaction } from "@/db/db.model";
-import { usePocket } from "@/hooks/usePocket";
+import { usePocketConnection } from "@/hooks/usePocketConnection";
 import { defaultTransaction, useTransaction } from "@/hooks/useTransaction";
 import { defaultDate } from "@/utils/day";
 import { currency } from "@/utils/number";
@@ -28,7 +28,7 @@ const StudentMngmt: FC = () => {
     defaultValues: defaultTransaction,
   });
 
-  const { pocketList } = usePocket();
+  const { pocketList } = usePocketConnection();
 
   const onSubmit = handleSubmit((data) => {
     addTransaction(data);
