@@ -125,7 +125,10 @@ export const FormModal: React.FC<FormModalProps> = ({
                   control={control}
                   renderValue={(items) => {
                     return items.map((i) => (
-                      <div className="flex items-center justify-between">
+                      <div
+                        key={i.key}
+                        className="flex items-center justify-between"
+                      >
                         <div className="flex flex-col">
                           <span>{i.data?.name}</span>
                         </div>
