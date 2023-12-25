@@ -4,53 +4,59 @@ import { startCase } from "lodash-es";
 import toast from "react-hot-toast";
 
 export const defaultFundSource: FundSource = {
+  id: undefined,
   name: "",
-  icon: "",
+  icon: "cart-shopping",
   isActive: true,
 };
 
-export const useFundSource = () => {
-  // dexie hook to get live data
+const sortByName = (i: FundSource, j: FundSource) => (i.name < j.name ? -1 : 1);
+
+export const useFundSourceConnection = () => {
   const fundSourceList =
-    useLiveQuery(() => db.fundSources.toArray())?.sort((i, j) =>
-      i.name < j.name ? -1 : 1
-    ) ?? [];
+    useLiveQuery(() => db.fundSources.toArray())?.sort(sortByName) ?? [];
 
-  // add FundSource
-  const addFundSource = async (fundSource: FundSource) => {
-    if (fundSourceList.find((i) => i.name == startCase(fundSource.name)))
-      return toast.error("FundSource Name should be unique");
-
-    toast.promise(
-      db.fundSources.add({ ...fundSource, name: startCase(fundSource.name) }),
-      {
-        loading: "Adding Your Fund Source",
-        success: "Fund Source Added",
-        error: "Error adding a fund Source",
-      }
+  const addUpdateFundSource = async (fundSource: FundSource) => {
+    const checkDuplicateName = fundSourceList.some(
+      (i) => i.id !== fundSource.id && i.name === startCase(fundSource.name)
     );
+
+    if (checkDuplicateName) {
+      toast.error("Source of Fund Name should be unique");
+      return;
+    }
+
+    const isUpdate = !!fundSource.id;
+    const payload = { ...fundSource, name: startCase(fundSource.name) };
+
+    try {
+      await toast.promise(
+        isUpdate ? db.fundSources.put(payload) : db.fundSources.add(payload),
+        {
+          loading: `${isUpdate ? "Updating" : "Adding"} Your Source of Fund`,
+          success: `Source of Fund ${isUpdate ? "Updated" : "Added"}`,
+          error: `Error ${isUpdate ? "updating" : "adding"} a Source of Fund`,
+        }
+      );
+    } catch (error) {
+      console.error("Failed to add or update fund source:", error);
+    }
   };
 
-  // update FundSource
-  const updateFundSource = async (fundSource: FundSource) => {
-    await db.fundSources.put({
-      ...fundSource,
-      name: startCase(fundSource.name),
-    });
-  };
-
-  // delete FundSource
   const toggleActive = async (fundSource: FundSource) => {
-    await db.fundSources.put({
-      ...fundSource,
-      isActive: !fundSource.isActive,
-    });
+    try {
+      await db.fundSources.put({
+        ...fundSource,
+        isActive: !fundSource.isActive,
+      });
+    } catch (error) {
+      console.error("Failed to toggle fund source:", error);
+    }
   };
 
   return {
-    addFundSource,
-    toggleActive,
     fundSourceList,
-    updateFundSource,
+    addUpdateFundSource,
+    toggleActive,
   };
 };

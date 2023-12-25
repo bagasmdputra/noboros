@@ -31,9 +31,10 @@ export const usePocket = () => {
     setValue("icon", pocket.icon);
     setValue("id", pocket.id);
     setValue("isActive", pocket.isActive);
-    setValue("limit", pocket.limit);
-    setValue("name", pocket.name);
+    setValue("limit", pocket.limit, { shouldValidate: false });
+    setValue("name", pocket.name, { shouldValidate: false });
   };
+
   const onClickPocketCard = useCallback(
     (pocket: Pocket) => {
       updatePocket(pocket);
