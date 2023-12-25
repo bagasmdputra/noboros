@@ -7,8 +7,8 @@ export interface Transaction {
   pocketId: number;
   sourceId: number;
   amount: number;
-  note: string;
-  status: string;
+  note?: string;
+  status?: string;
 }
 
 export interface Pocket {

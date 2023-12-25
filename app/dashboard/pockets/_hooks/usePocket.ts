@@ -27,13 +27,16 @@ export const usePocket = () => {
   });
 
   const isUpdate = !!getValues("id");
-  const updatePocket = (pocket: Pocket) => {
-    setValue("icon", pocket.icon);
-    setValue("id", pocket.id);
-    setValue("isActive", pocket.isActive);
-    setValue("limit", pocket.limit, { shouldValidate: false });
-    setValue("name", pocket.name, { shouldValidate: false });
-  };
+  const updatePocket = useCallback(
+    (pocket: Pocket) => {
+      setValue("icon", pocket.icon);
+      setValue("id", pocket.id);
+      setValue("isActive", pocket.isActive);
+      setValue("limit", pocket.limit, { shouldValidate: false });
+      setValue("name", pocket.name, { shouldValidate: false });
+    },
+    [setValue]
+  );
 
   const onClickPocketCard = useCallback(
     (pocket: Pocket) => {
@@ -46,7 +49,7 @@ export const usePocket = () => {
   const closeForm = useCallback(() => {
     updatePocket(defaultPocket);
     onClose();
-  }, [updatePocket, onClose, defaultPocket]);
+  }, [updatePocket, onClose]);
 
   const onSubmit = handleSubmit(
     useCallback(

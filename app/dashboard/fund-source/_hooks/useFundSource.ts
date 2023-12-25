@@ -26,12 +26,15 @@ export const useFundSource = () => {
   });
 
   const isUpdate = !!getValues("id");
-  const updateFundSource = (fundSource: FundSource) => {
-    setValue("icon", fundSource.icon);
-    setValue("id", fundSource.id);
-    setValue("isActive", fundSource.isActive);
-    setValue("name", fundSource.name, { shouldValidate: false });
-  };
+  const updateFundSource = useCallback(
+    (fundSource: FundSource) => {
+      setValue("icon", fundSource.icon);
+      setValue("id", fundSource.id);
+      setValue("isActive", fundSource.isActive);
+      setValue("name", fundSource.name, { shouldValidate: false });
+    },
+    [setValue]
+  );
 
   const onClickFundSourceCard = useCallback(
     (pocket: FundSource) => {
@@ -44,7 +47,7 @@ export const useFundSource = () => {
   const closeForm = useCallback(() => {
     updateFundSource(defaultFundSource);
     onClose();
-  }, [updateFundSource, onClose, defaultFundSource]);
+  }, [updateFundSource, onClose]);
 
   const onSubmit = handleSubmit(
     useCallback(
