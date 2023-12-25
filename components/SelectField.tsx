@@ -20,8 +20,8 @@ export const SelectField: SelectFieldType = ({
   } = useController({
     name,
     control,
-    rules: { required: true },
   });
+  console.log("value: ", value);
 
   return (
     <Select

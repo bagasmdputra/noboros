@@ -1,9 +1,13 @@
 import { CurrencyInputField } from "@/components/CurrencyInputField";
 import { InputField } from "@/components/InputField";
+import { getElement } from "@/components/PocketIcon";
 import { SelectField } from "@/components/SelectField";
 import { TextareaField } from "@/components/TextareaField";
+import { FundSource, Pocket } from "@/db/db.model";
 import { useFundSourceConnection } from "@/hooks/useFundSourceConnection";
 import { usePocketConnection } from "@/hooks/usePocketConnection";
+import { faCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Button,
   Modal,
@@ -14,7 +18,10 @@ import {
   SelectItem,
 } from "@nextui-org/react";
 import dayjs from "dayjs";
+import Image from "next/image";
 import { Control } from "react-hook-form";
+import { getBankByCode } from "../../fund-source/_constants";
+import { currency } from "@/utils/number";
 
 type FormModalProps = {
   isUpdate: boolean;
@@ -33,9 +40,8 @@ export const FormModal: React.FC<FormModalProps> = ({
   onClose,
   onSubmit,
 }) => {
-  const todayDate = dayjs().toISOString().substring(0, 10);
-  const { pocketList } = usePocketConnection();
-  const { fundSourceList } = useFundSourceConnection();
+  const { pocketOptions } = usePocketConnection();
+  const { fundSourceOptions } = useFundSourceConnection();
 
   return (
     <>
@@ -61,7 +67,6 @@ export const FormModal: React.FC<FormModalProps> = ({
                   control={control}
                   name="date"
                   label="Date"
-                  defaultValue={todayDate}
                 />
                 <InputField
                   type="text"
@@ -79,32 +84,76 @@ export const FormModal: React.FC<FormModalProps> = ({
                 <SelectField
                   placeholder="Select a pocket"
                   name="pocketId"
+                  items={pocketOptions}
                   label="Pocket"
                   control={control}
+                  renderValue={(items) => {
+                    return items.map((i) => (
+                      <div key={i.key} className="flex items-center gap-2">
+                        <FontAwesomeIcon
+                          className="flex-shrink-0"
+                          icon={getElement(i.data?.icon ?? "") ?? faCircle}
+                          size="lg"
+                        />
+                        <div className="flex flex-col">
+                          <span>{i.data?.name}</span>
+                        </div>
+                      </div>
+                    ));
+                  }}
                 >
-                  {pocketList?.map((pocket, idx) => (
-                    <SelectItem
-                      key={pocket?.id ?? idx}
-                      value={Number(pocket.id)}
-                    >
-                      {pocket.name}
+                  {(i: Pocket) => (
+                    <SelectItem key={i.id!}>
+                      <div className="flex items-center gap-2">
+                        <FontAwesomeIcon
+                          className="flex-shrink-0"
+                          icon={getElement(i.icon ?? "") ?? faCircle}
+                          size="lg"
+                        />
+                        <div className="flex flex-col">
+                          <span>{i.name}</span>
+                        </div>
+                      </div>
                     </SelectItem>
-                  ))}
+                  )}
                 </SelectField>
                 <SelectField
                   placeholder="Select a Source of Fund"
                   name="sourceId"
+                  items={fundSourceOptions}
                   label="Source of Fund"
                   control={control}
+                  renderValue={(items) => {
+                    return items.map((i) => (
+                      <div className="flex items-center justify-between">
+                        <div className="flex flex-col">
+                          <span>{i.data?.name}</span>
+                        </div>
+                        <Image
+                          src={getBankByCode(i.data?.icon ?? "008").imagePath}
+                          alt={i.data?.name ?? ""}
+                          width={80}
+                          height={60}
+                        />
+                      </div>
+                    ));
+                  }}
                 >
-                  {fundSourceList?.map((pocket, idx) => (
-                    <SelectItem
-                      key={pocket?.id ?? idx}
-                      value={Number(pocket.id)}
-                    >
-                      {pocket.name}
+                  {(i: FundSource) => (
+                    <SelectItem key={i.id!}>
+                      <div className="flex items-center justify-between">
+                        <div className="flex flex-col">
+                          <span>{i.name}</span>
+                        </div>
+                        <Image
+                          src={getBankByCode(i.icon).imagePath}
+                          alt={i.name}
+                          width={80}
+                          height={60}
+                        />
+                      </div>
                     </SelectItem>
-                  ))}
+                  )}
                 </SelectField>
                 <TextareaField
                   type="text"

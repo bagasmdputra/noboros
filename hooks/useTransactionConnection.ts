@@ -1,12 +1,11 @@
 import { Transaction, db } from "@/db/db.model";
 import dayjs from "dayjs";
 import { useLiveQuery } from "dexie-react-hooks";
-import { startCase } from "lodash-es";
 import toast from "react-hot-toast";
 
 export const defaultTransaction: Transaction = {
   name: "",
-  date: "",
+  date: dayjs().toISOString().substring(0, 10),
   pocketId: 0,
   sourceId: 0,
   amount: 0,

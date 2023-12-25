@@ -17,6 +17,8 @@ export const usePocketConnection = () => {
   const pocketList =
     useLiveQuery(() => db.pockets.toArray())?.sort(sortByName) ?? [];
 
+  const pocketOptions = pocketList.filter((i) => i.isActive);
+
   const addUpdatePocket = async (pocket: Pocket) => {
     const checkDuplicateName = pocketList.some(
       (i) => i.id !== pocket.id && i.name === startCase(pocket.name)
@@ -46,6 +48,7 @@ export const usePocketConnection = () => {
 
   return {
     pocketList,
+    pocketOptions,
     addUpdatePocket,
   };
 };
