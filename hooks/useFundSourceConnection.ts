@@ -40,7 +40,7 @@ export const useFundSourceConnection = () => {
         }
       );
     } catch (error) {
-      console.error("Failed to add or update fund source:", error);
+      console.error("Failed to add or update source of fund:", error);
     }
   };
 
@@ -51,7 +51,7 @@ export const useFundSourceConnection = () => {
         isActive: !fundSource.isActive,
       });
     } catch (error) {
-      console.error("Failed to toggle fund source:", error);
+      console.error("Failed to toggle source of fund:", error);
     }
   };
 

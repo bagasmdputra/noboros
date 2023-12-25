@@ -23,7 +23,7 @@ const MenuItems = ({
   const menuItems = [
     { label: "transactions", path: "/dashboard" },
     { label: "pockets", path: "/dashboard/pockets" },
-    { label: "source", path: "/dashboard/fund-source" },
+    { label: "source of fund", path: "/dashboard/fund-source" },
   ];
 
   return menuItems.map((item, index) => (

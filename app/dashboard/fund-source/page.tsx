@@ -20,7 +20,7 @@ const FundSourcePage: FC = () => {
 
   return (
     <div className="flex gap-4 flex-col max-w-md mx-2 sm:mx-auto">
-      <div className="text-large text-center mt-4 mb-1 ">Fund Source</div>
+      <div className="text-large text-center mt-4 mb-1 ">Source of Fund</div>
       <FormModal
         isUpdate={isUpdate}
         isOpen={isOpen}
