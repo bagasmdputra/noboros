@@ -18,6 +18,7 @@ export const useFundSourceConnection = () => {
     useLiveQuery(() => db.fundSources.toArray())?.sort(sortByName) ?? [];
 
   const fundSourceOptions = fundSourceList.filter((i) => i.isActive);
+  const getFundSource = (id: number) => fundSourceList.find((i) => i.id == id);
 
   const addUpdateFundSource = async (fundSource: FundSource) => {
     const checkDuplicateName = fundSourceList.some(
@@ -60,6 +61,7 @@ export const useFundSourceConnection = () => {
   return {
     fundSourceList,
     fundSourceOptions,
+    getFundSource,
     addUpdateFundSource,
     toggleActive,
   };
