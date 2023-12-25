@@ -17,11 +17,9 @@ import {
   ModalHeader,
   SelectItem,
 } from "@nextui-org/react";
-import dayjs from "dayjs";
 import Image from "next/image";
 import { Control } from "react-hook-form";
 import { getBankByCode } from "../../fund-source/_constants";
-import { currency } from "@/utils/number";
 
 type FormModalProps = {
   isUpdate: boolean;
