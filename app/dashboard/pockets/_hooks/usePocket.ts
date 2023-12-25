@@ -7,6 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useDisclosure } from "@nextui-org/react";
 import { useForm } from "react-hook-form";
 import { ObjectSchema, boolean, number, object, string } from "yup";
+import { useCallback } from "react";
 
 const schema: ObjectSchema<Pocket> = object({
   id: number().optional(),
@@ -33,20 +34,28 @@ export const usePocket = () => {
     setValue("limit", pocket.limit);
     setValue("name", pocket.name);
   };
+  const onClickPocketCard = useCallback(
+    (pocket: Pocket) => {
+      updatePocket(pocket);
+      onOpen();
+    },
+    [updatePocket, onOpen]
+  );
 
-  const onClickPocketCard = (pocket: Pocket) => {
-    updatePocket(pocket);
-    onOpen();
-  };
-
-  const closeForm = () => {
+  const closeForm = useCallback(() => {
     updatePocket(defaultPocket);
     onClose();
-  };
-  const onSubmit = handleSubmit((data) => {
-    addUpdatePocket(data);
-    closeForm();
-  });
+  }, [updatePocket, onClose, defaultPocket]);
+
+  const onSubmit = handleSubmit(
+    useCallback(
+      (data) => {
+        addUpdatePocket(data);
+        closeForm();
+      },
+      [addUpdatePocket, closeForm]
+    )
+  );
 
   return {
     closeForm,

@@ -11,45 +11,41 @@ export const defaultPocket: Pocket = {
   isActive: true,
 };
 
-export const usePocketConnection = () => {
-  // dexie hook to get live data
-  const pocketList =
-    useLiveQuery(() => db.pockets.toArray())?.sort((i, j) => {
-      return i.name < j.name ? -1 : 1;
-    }) ?? [];
+const sortByName = (i: Pocket, j: Pocket) => (i.name < j.name ? -1 : 1);
 
-  // add or update Pocket
+export const usePocketConnection = () => {
+  const pocketList =
+    useLiveQuery(() => db.pockets.toArray())?.sort(sortByName) ?? [];
+
   const addUpdatePocket = async (pocket: Pocket) => {
-    const checkDuplicateName = !!pocketList.find(
-      (i) => i.id !== pocket.id && i.name == startCase(pocket.name)
+    const checkDuplicateName = pocketList.some(
+      (i) => i.id !== pocket.id && i.name === startCase(pocket.name)
     );
 
-    if (checkDuplicateName) return toast.error("Pocket Name should be unique");
+    if (checkDuplicateName) {
+      toast.error("Pocket Name should be unique");
+      return;
+    }
 
     const isUpdate = !!pocket.id;
     const payload = { ...pocket, name: startCase(pocket.name) };
 
-    toast.promise(
-      isUpdate ? db.pockets.put(payload) : db.pockets.add(payload),
-      {
-        loading: `${isUpdate ? "Updating" : "Adding"} Your Pocket`,
-        success: `Pocket ${isUpdate ? "Updated" : "Added"}`,
-        error: `Error ${isUpdate ? "updating" : "adding"} a pocket`,
-      }
-    );
-  };
-
-  // delete Pocket
-  const toggleActive = async (pocket: Pocket) => {
-    await db.pockets.put({
-      ...pocket,
-      isActive: !pocket.isActive,
-    });
+    try {
+      await toast.promise(
+        isUpdate ? db.pockets.put(payload) : db.pockets.add(payload),
+        {
+          loading: `${isUpdate ? "Updating" : "Adding"} Your Pocket`,
+          success: `Pocket ${isUpdate ? "Updated" : "Added"}`,
+          error: `Error ${isUpdate ? "updating" : "adding"} a pocket`,
+        }
+      );
+    } catch (error) {
+      console.error("Failed to add or update pocket:", error);
+    }
   };
 
   return {
-    addUpdatePocket,
-    toggleActive,
     pocketList,
+    addUpdatePocket,
   };
 };

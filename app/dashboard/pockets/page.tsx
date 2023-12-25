@@ -3,7 +3,7 @@
 import { FC } from "react";
 
 import { FormModal } from "./_components/FormModal";
-import { Pockets } from "./_components/Pockets";
+import { PocketList } from "./_components/PocketList";
 import { usePocket } from "./_hooks/usePocket";
 const PocketPage: FC = () => {
   const {
@@ -28,7 +28,10 @@ const PocketPage: FC = () => {
         onClose={closeForm}
         onSubmit={onSubmit}
       />
-      <Pockets pocketList={pocketList} onClickPocketCard={onClickPocketCard} />
+      <PocketList
+        pocketList={pocketList}
+        onClickPocketCard={onClickPocketCard}
+      />
     </div>
   );
 };

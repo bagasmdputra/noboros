@@ -1,6 +1,6 @@
 import Dexie, { Table } from "dexie";
 // table inteface
-export type Transaction = {
+export interface Transaction {
   id?: number;
   name: string;
   date: string;
@@ -9,22 +9,22 @@ export type Transaction = {
   amount: number;
   note: string;
   status: string;
-};
+}
 
-export type Pocket = {
+export interface Pocket {
   id?: number;
   name: string;
   limit: number;
   icon: string;
   isActive: boolean;
-};
+}
 
-export type FundSource = {
+export interface FundSource {
   id?: number;
   name: string;
   icon: string;
   isActive: boolean;
-};
+}
 
 export class DB extends Dexie {
   // table name is student
