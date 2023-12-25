@@ -1,3 +1,4 @@
+import bankList from "@/app/dashboard/fund-source/_constants";
 import { FundSource, db } from "@/db/db.model";
 import { useLiveQuery } from "dexie-react-hooks";
 import { startCase } from "lodash-es";
@@ -6,7 +7,7 @@ import toast from "react-hot-toast";
 export const defaultFundSource: FundSource = {
   id: undefined,
   name: "",
-  icon: "cart-shopping",
+  icon: bankList[0].code,
   isActive: true,
 };
 

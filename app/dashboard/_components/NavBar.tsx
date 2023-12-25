@@ -1,16 +1,12 @@
 "use client";
-import { faBorderAll } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  Link,
   Navbar,
-  NavbarContent,
-  NavbarMenuToggle,
   NavbarBrand,
-  NavbarItem,
-  Button,
+  NavbarContent,
   NavbarMenu,
   NavbarMenuItem,
-  Link,
+  NavbarMenuToggle,
 } from "@nextui-org/react";
 import Image from "next/image";
 
@@ -27,7 +23,7 @@ const MenuItems = ({
   const menuItems = [
     { label: "transactions", path: "/dashboard" },
     { label: "pockets", path: "/dashboard/pockets" },
-    { label: "source", path: "/dashboard/source" },
+    { label: "source", path: "/dashboard/fund-source" },
   ];
 
   return menuItems.map((item, index) => (

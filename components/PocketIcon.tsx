@@ -1,7 +1,6 @@
-import { IconName, IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import { IconDefinition, IconName } from "@fortawesome/fontawesome-svg-core";
 import {
   faBookOpen,
-  faBorderAll,
   faCarSide,
   faCartShopping,
   faCircle,
@@ -16,7 +15,6 @@ import {
   faUtensils,
   faWifi,
 } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export type PocketIconType = { name: IconName; element: IconDefinition };
 
