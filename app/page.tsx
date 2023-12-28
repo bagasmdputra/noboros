@@ -17,7 +17,7 @@ export default function Home() {
     {
       name: "Pocket",
       icon: faWallet,
-      link: "dashboard/pocket",
+      link: "dashboard/pockets",
     },
     {
       name: "Source",
