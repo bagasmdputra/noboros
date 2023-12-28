@@ -54,15 +54,17 @@ export const NavBar = () => {
           className="sm:hidden"
         />
         <NavbarBrand>
-          <Image
-            className="relative"
-            src="/logo.png"
-            alt="Noboros Logo"
-            width={50}
-            height={50}
-            priority
-          />
-          <p className="font-bold text-inherit ml-1">Noboros</p>
+          <Link href="/">
+            <Image
+              className="relative"
+              src="/logo.png"
+              alt="Noboros Logo"
+              width={50}
+              height={50}
+              priority
+            />
+            <p className="font-bold text-inherit ml-1">Noboros</p>
+          </Link>
         </NavbarBrand>
       </NavbarContent>
 
